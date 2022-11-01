@@ -22,7 +22,7 @@ DEPLOYED LINKS
 --------------
 
 #### Website
-* https://dillonkim19.github.io/challenge04/
+* https://dillonkim19.github.io/challenge05/
 
 #### Github
-* https://github.com/dillonkim19/challenge04
+* https://github.com/dillonkim19/challenge05
