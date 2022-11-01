@@ -2,8 +2,18 @@ var container = $(".container");
 var currentDay = $("#currentDay");
 
 var hoursArray = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22];
+var numberToWord = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", 
+"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
 
+var textArray;
 
+if (JSON.parse(localStorage.getItem("textArray") === null)){
+    textArray = Array(hoursArray.length).fill('');
+    localStorage.setItem("textArray", JSON.stringify(textArray))
+} else {
+    textArray = JSON.parse(localStorage.getItem("textArray"));
+}
+// console.log(textArray);
 
 var current = moment();
 // console.log(current);
@@ -18,6 +28,18 @@ function compareHour(hour) {
     } else {
         return "future";
     }
+}
+
+function saveData(index) {
+    textArray = JSON.parse(localStorage.getItem("textArray"));
+    // console.log(index)
+    // console.log(textArray)
+    var textId = "#" + numberToWord[index];
+    // console.log(textId);
+    // console.log($(textId).val());
+    textArray[index] = $(textId).val();
+    // console.log(textArray);
+    localStorage.setItem("textArray", JSON.stringify(textArray));
 }
 
 //add current day to page
@@ -37,11 +59,14 @@ for (var i = 0; i < hoursArray.length; i++){
 
     var textbox = document.createElement("textarea");
     textbox.setAttribute("class", "col-md-10 description");
-    // textbox.textContent = "whatever"
+    textbox.setAttribute("id", numberToWord[i])
+    textbox.textContent = textArray[i];
 
     var saveButton = document.createElement("i");
     saveButton.setAttribute("class", "col-md-1 fas fa-save saveBtn");
     
+    saveButton.addEventListener("click", saveData.bind(this, i));
+
     container.append(wrapper);
     wrapper.appendChild(hour);
     wrapper.appendChild(textbox);
