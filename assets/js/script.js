@@ -1,3 +1,5 @@
+// initialize variables
+
 var container = $(".container");
 var currentDay = $("#currentDay");
 
@@ -7,7 +9,10 @@ var numberToWord = ["zero", "one", "two", "three", "four", "five", "six", "seven
 
 var textArray;
 
-if (JSON.parse(localStorage.getItem("textArray") === null)){
+
+// see if local storage has textArray variable with text content
+// if not, make an array and set variable in local storage
+if (!JSON.parse(localStorage.getItem("textArray"))){
     textArray = Array(hoursArray.length).fill('');
     localStorage.setItem("textArray", JSON.stringify(textArray))
 } else {
@@ -30,6 +35,7 @@ function compareHour(hour) {
     }
 }
 
+// save data into local storage using array index and id (for text in text area)
 function saveData(index) {
     textArray = JSON.parse(localStorage.getItem("textArray"));
     // console.log(index)
@@ -53,20 +59,24 @@ for (var i = 0; i < hoursArray.length; i++){
     // console.log(compareHour(hoursArray[i])); //get past, present, or future
     wrapper.classList.add(compareHour(hoursArray[i]));
     
+    // div for hour
     var hour = document.createElement("div");
     hour.textContent = moment(hoursArray[i], 'HH').format('H A')
     hour.setAttribute("class", "col-md-1 hour")
 
+    // text area for user input text
     var textbox = document.createElement("textarea");
     textbox.setAttribute("class", "col-md-10 description");
     textbox.setAttribute("id", numberToWord[i])
     textbox.textContent = textArray[i];
 
+    // adding save button
     var saveButton = document.createElement("i");
     saveButton.setAttribute("class", "col-md-1 fas fa-save saveBtn");
     
     saveButton.addEventListener("click", saveData.bind(this, i));
 
+    // appending all elements created
     container.append(wrapper);
     wrapper.appendChild(hour);
     wrapper.appendChild(textbox);
